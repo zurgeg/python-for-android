@@ -764,17 +764,15 @@ def run_pymodules_install(ctx, modules, project_dir=None,
             project_has_setup_py(project_dir) and not ignore_setup_py:
         info('Will process project install, if it fails then the '
              'project may not be compatible for Android install.')
-
-    venv = sh.Command(ctx.virtualenv)
+    venv = sh.Command('virtualenv')
     with current_directory(join(ctx.build_dir)):
         shprint(venv,
-                '--python=python{}'.format(
+                '-p=python{}'.format(
                     ctx.python_recipe.major_minor_version_string.
                     partition(".")[0]
                     ),
                 'venv'
                )
-
         # Prepare base environment and upgrade pip:
         base_env = copy.copy(os.environ)
         base_env["PYTHONPATH"] = ctx.get_site_packages_dir()
